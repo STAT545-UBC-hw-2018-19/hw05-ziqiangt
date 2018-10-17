@@ -26,6 +26,13 @@ library(plotly)
 
 ## The Assignment
 ### Part 1: Factor management
+
+Function | Definition
+----------------|------------------
+   `droplevels()`      | drop unused levels
+   `arrange()`         | no effects on the order of levels pairs
+   `fct_reorcer()`     | affect on the order of levels pairs
+   
 #### Before drop Oceania
 let's first view the structure of the dataset:
 ```{r}
@@ -137,3 +144,47 @@ before_arrange %>%
 Conclusions: using arrange() along will not affect the order of levels while fct_reorcer() does.
 
 ### Part 2: File I/O
+
+Function | Definition
+----------------|------------------
+   `write_csv()/read_csv()`      | Write/Read a data frame to a delimited file while parse each column with default formats
+   `saveRDS()/readRDS()`         | Write/Read a single R object to a file and keep the original formats
+   `dput()/dget()`     | Writes/Read an ASCII text representation of an R object to a file and keep the original formats
+
+Let's example the part 1 data with the above functions. First, let's recall the dataset- before_arrange:
+```{r}
+kable( head( before_arrange, 10 )) 
+glimpse( before_arrange) # just for learning the function glimpse
+```
+
+#### write_csv()/read_csv()
+```{r}
+write_csv(before_arrange, "data_csv.csv") # write to csv
+read_data_csv <- read_csv("data_csv.csv") # read from csv
+read_back <- glimpse(read_data_csv) 
+
+if(read_data_csv == before_arrange) # judge the store data is correct or not
+  ("Read back data Match with data before storing!")
+```
+
+It should be noted that after read_csv, the class of country has changed from the original <fct> to <chr> while the if cannot distinguish this difference.
+
+#### saveRDS()/readRDS()
+```{r}
+saveRDS(before_arrange, "data_csv.csv") # write to csv
+read_data_RDS <- readRDS("data_csv.csv") # read from csv
+glimpse(read_data_RDS) 
+```
+
+By using saveRDS()/readRDS(), the class can be kept to be the same as the original format.
+
+#### dput()/dget()
+```{r}
+dput(before_arrange, "data_csv.csv") # write to csv
+read_data_dget <- dget("data_csv.csv") # read from csv
+glimpse(read_data_dget) 
+```
+
+Similarly as saveRDS()/readRDS(), the class can be kept to be the same as the original format.
+
+### Part 3: Visualization design
