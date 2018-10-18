@@ -236,9 +236,11 @@ plotly VS ggplot:
 Plotly and ggplot2 are inherently for different purposes. plotly allows you to quickly create beautiful, reactive D3 plots that are particularly powerful in websites and dashboards. You can hover your mouse over the plots and see the data values, zoom in and out of specific regions, and capture stills.
 
 ```{r}
-ggplotly(plot_new)
-api_create(plot_new, filename = "plotly_new")
+#ggplotly(plot_new)
+#api_create(plot_new, filename = "plotly_new")
 ```
+####try to look at my plotly file on this link:
+[plot_new](https://plot.ly/~wdckp520/3/#/)
 
 ### Part 4: Writing figures to file
 ```{r}
