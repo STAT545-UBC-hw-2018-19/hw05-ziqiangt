@@ -3,6 +3,7 @@ title: "hw05"
 author: "ziqiangt"
 date: "2018/10/16"
 output: github_document
+always_allow_html: yes
 ---
 
 ## Overview
@@ -239,4 +240,9 @@ ggplotly(plot_new)
 ```
 
 ### Part 4: Writing figures to file
+```{r}
+ggsave("plot_new.png", plot_new, width=50, height=30, units = "cm", dpi = 300)
+```
 
+#### load figure
+![plot_new.png](./plot_new.png)
