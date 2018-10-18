@@ -21,6 +21,8 @@ library(gapminder)
 library(tidyverse)
 library(knitr)
 library(plotly)
+suppressPackageStartupMessages(library(tidyverse))
+library(scales)
 ```
 
 
@@ -188,3 +190,53 @@ glimpse(read_data_dget)
 Similarly as saveRDS()/readRDS(), the class can be kept to be the same as the original format.
 
 ### Part 3: Visualization design
+
+Here is what I did in assignment 03. I want to show the maximum and minimum of GDP per capital for all continents.
+```{r}
+GDP_per_cap <- gapminder %>% 
+  group_by( continent ) %>% 
+  summarize( minGDP = min( gdpPercap ),
+            maxGDP = max( gdpPercap ))
+GDP_per_cap %>% 
+gather( key = min_or_max, value = GDP_per_cap, 2:3 ) %>%  
+  ggplot( aes( x = continent, y = GDP_per_cap, fill = continent )) +
+  geom_col( alpha = 0.5 ) +
+  scale_y_log10() +
+  facet_wrap( .~min_or_max )  +
+  ggtitle( "The GDP per capital for all continents" ) +
+  xlab( "Continent") +
+  ylab( "GDP per capital" )
+```
+
+It can seen the y-axis is reall hard to know the exact meaning. Therefore, let's change to dollar_format(). Besides, we could change the strip.background to have a more clear view. Moreover, the test size could also be ajusted.
+```{r}
+Df_GDP_per_cap <- gapminder %>% 
+  group_by( continent ) %>% 
+  summarize( minGDP = min( gdpPercap ),
+            maxGDP = max( gdpPercap ))
+
+plot_new <- Df_GDP_per_cap %>% 
+gather( key = min_or_max, value = Df_GDP_per_cap, 2:3 ) %>%  
+  ggplot( aes( x = continent, y = Df_GDP_per_cap, fill = continent )) +
+  geom_col( alpha = 0.5 ) +
+  scale_y_log10(labels=dollar_format()) + #change to dollar format
+  facet_wrap( .~min_or_max )  +
+  ggtitle( "The GDP per capital for all continents" ) +
+  xlab( "Continent") +
+  ylab( "GDP per capital" ) +
+  theme_dark() +                          #change theme 
+  theme(axis.text =  element_text(size = 12),
+          strip.background = element_rect(fill = "orange"))
+
+plot_new
+```
+
+plotly VS ggplot:
+Plotly and ggplot2 are inherently for different purposes. plotly allows you to quickly create beautiful, reactive D3 plots that are particularly powerful in websites and dashboards. You can hover your mouse over the plots and see the data values, zoom in and out of specific regions, and capture stills.
+
+```{r}
+ggplotly(plot_new)
+```
+
+### Part 4: Writing figures to file
+
