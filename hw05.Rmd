@@ -2,8 +2,9 @@
 title: "hw05"
 author: "ziqiangt"
 date: "2018/10/16"
-output: github_document
-always_allow_html: yes
+output: 
+  github_document:
+    toc: yes
 ---
 
 ## Overview
@@ -249,3 +250,31 @@ ggsave("plot_new.png", plot_new, width=50, height=30, units = "cm", dpi = 300)
 
 #### load figure
 ![plot_new.png](./plot_new.png)
+
+### But I want to do more!
+In this task, I want to add the food for those five countries:
+```{r}
+country_food <- 
+  data.frame(
+  country = c("China","Italy", "Spain", "Japan","Canada"),
+  food = c("Hot pot","Pizza","Seafood Paella","Udon noodle","Ice wine"))
+
+sub_gapminder <- gapminder %>%
+  filter( country %in% c("China","Italy", "Spain", "Japan","Canada")) %>% 
+  droplevels() 
+
+
+subgapminder.add.food <- left_join(sub_gapminder,country_food)
+```
+
+Let's view the levels:
+```{r}
+subgapminder.add.food %>% 
+  summarize(
+    nrow = nrow(subgapminder.add.food),
+    nlevels = nlevels(subgapminder.add.food$country),
+    nlevels2 = nlevels(subgapminder.add.food$food)) %>% 
+  knitr::kable(col.names = c("Rows", "Levels of country", "Levels of food"))
+```
+
+It can be seen that there are 5 levels of both country and foods.
