@@ -237,6 +237,7 @@ Plotly and ggplot2 are inherently for different purposes. plotly allows you to q
 
 ```{r}
 ggplotly(plot_new)
+api_create(plot_new, filename = "plotly_new")
 ```
 
 ### Part 4: Writing figures to file
